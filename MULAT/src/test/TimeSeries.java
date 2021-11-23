@@ -7,17 +7,19 @@ import java.util.Vector;
 
 public class TimeSeries {
 	Map <String,Vector<Float> > my_map=new HashMap<>();
+	Map <Vector<Float>,String > my_second_map=new HashMap<>();
 	String line ="";
 	String header []=null;
 	String temp[]=null;
 	Vector<Vector<Float>> calVal;
 	Vector<Float> temp_vec;
 	int numOf_vec;
+	int rowCounter=0;
 	
 	public TimeSeries(String csvFileName) {
 
 
-		int rowCounter=0;
+
 		try {
 			BufferedReader lineRead =new BufferedReader(new FileReader(csvFileName));
 			calVal = new Vector<>();
@@ -48,6 +50,7 @@ public class TimeSeries {
 				if(rowCounter== numOf_vec -1){
 				for (int i=0;i<temp.length;i++) {
 					my_map.put(header[i], calVal.get(i));
+					my_second_map.put(calVal.get(i),header[i]);
 				}
 				}
 			}
@@ -60,8 +63,18 @@ public class TimeSeries {
  public Vector<Float> get_column(String key){
 		return my_map.get(key);
  }
+	public String get_head (Vector<Float> vec){
+		return my_second_map.get(vec);
+	}
 	public float get_index(String key,int index){
-		return my_map.get(key).get(index-1);
+		return my_map.get(key).get(index);
+	}
+	public float [] convert_vec_to_array(Vector<Float> vec){
+		float [] temp=new float[vec.size()];
+		for (int i=0;i<vec.size();i++){
+			temp[i]=vec.get(i);
+		}
+		return temp;
 	}
 	
 }

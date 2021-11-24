@@ -15,7 +15,7 @@ public class TimeSeries {
 	Vector<Float> temp_vec;
 	int numOf_vec;
 	int rowCounter=0;
-	
+
 	public TimeSeries(String csvFileName) {
 
 
@@ -50,7 +50,6 @@ public class TimeSeries {
 				if(rowCounter== numOf_vec -1){
 				for (int i=0;i<temp.length;i++) {
 					my_map.put(header[i], calVal.get(i));
-					my_second_map.put(calVal.get(i),header[i]);
 				}
 				}
 			}
@@ -60,11 +59,15 @@ public class TimeSeries {
 
 	}
 
- public Vector<Float> get_column(String key){
+ 	public Vector<Float> get_column(String key){
 		return my_map.get(key);
  }
-	public String get_head (Vector<Float> vec){
-		return my_second_map.get(vec);
+	public Point[] convert_columns_to_point_array(String first,String second,Point [] point_array){
+		for(int j=0 ;j<rowCounter-1;j++){
+			Point a =new Point(this.get_index(first,j),this.get_index(second,j));
+			point_array[j]=a;
+		}
+		return point_array;
 	}
 	public float get_index(String key,int index){
 		return my_map.get(key).get(index);
@@ -76,5 +79,5 @@ public class TimeSeries {
 		}
 		return temp;
 	}
-	
+
 }
